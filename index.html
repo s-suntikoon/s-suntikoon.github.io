@@ -4,84 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Supanut Suntikoon | Premium Math Tutor</title>
-    
+    <title>Supanut | Premium Math</title>
     <style>
         :root {
-            /* Sleek Dark Black Aesthetic */
-            --bg-dark: #000000;
-            --bg-card: #0a0a0a;
-            --bg-lighter: #121212;
-            --text-main: #f8fafc;
-            --text-muted: #a1a1aa;
-            --accent: #fbbf24; /* Premium Gold */
-            --accent-hover: #f59e0b;
-            --line-green: #00B900;
-            --border-color: #27272a;
-            --nav-height: 70px;
+            --bg-pure-black: #000000;
+            --bg-surface: #0a0a0a;
+            --bg-surface-light: #141414;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --accent-gold: #d4af37;
+            --line-green: #06c755;
+            --border-subtle: #222222;
+            --app-max-width: 480px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent; /* Removes blue tap highlight on mobile */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        body, html {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            height: 100%;
-            width: 100%;
-            overflow: hidden; /* Prevent body scrolling, scroll inner container instead */
+        body {
+            background-color: var(--bg-pure-black);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            height: 100dvh; /* For mobile browser dynamic toolbars */
+            overflow: hidden;
         }
 
-        /* --- App Layout Containers --- */
+        /* --- App Container --- */
         .app-container {
+            width: 100%;
+            max-width: var(--app-max-width);
+            height: 100%;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            /* Account for mobile browser safe areas */
-            padding-top: env(safe-area-inset-top);
+            background-color: var(--bg-pure-black);
+            position: relative;
+            border-left: 1px solid var(--border-subtle);
+            border-right: 1px solid var(--border-subtle);
         }
 
+        /* --- Top App Bar --- */
         .top-bar {
-            padding: 1rem;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-subtle);
+            background-color: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             z-index: 10;
         }
 
         .top-bar h1 {
-            font-size: 1.2rem;
-            color: var(--accent);
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
+        .top-bar span {
+            color: var(--accent-gold);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- Main Content Area --- */
         .main-content {
             flex: 1;
-            overflow-y: auto; /* Scrollable content area */
-            overflow-x: hidden;
-            padding-bottom: calc(var(--nav-height) + 40px); /* Space for nav + FAB */
+            overflow-y: auto;
             scroll-behavior: smooth;
+            padding-bottom: 80px; /* Space for bottom nav */
         }
 
-        /* --- Panel Toggling Logic --- */
-        .panel {
+        /* Hide scrollbar for sleekness */
+        .main-content::-webkit-scrollbar {
             display: none;
-            padding: 1.5rem;
-            animation: fadeIn 0.3s ease-out forwards;
+        }
+        .main-content {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        .panel.active {
+        /* --- Sections (Toggle Views) --- */
+        .view-section {
+            display: none;
+            padding: 24px;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .view-section.active {
             display: block;
         }
 
@@ -90,265 +107,222 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Bottom Navigation --- */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: calc(var(--nav-height) + env(safe-area-inset-bottom));
-            background-color: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding-bottom: env(safe-area-inset-bottom);
-            z-index: 1000;
-        }
-
-        .nav-item {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: color 0.3s;
-            width: 33%;
-        }
-
-        .nav-item.active {
-            color: var(--accent);
-        }
-
-        .nav-icon {
-            font-size: 1.4rem;
-        }
-
-        /* --- Floating Action Button (FAB) --- */
-        .fab {
-            position: fixed;
-            bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + 15px);
-            right: 20px;
-            background-color: var(--line-green);
-            color: #fff;
-            padding: 12px 20px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1rem;
-            box-shadow: 0 4px 15px rgba(0, 185, 0, 0.3);
-            z-index: 999;
-            transition: transform 0.2s;
-        }
-
-        .fab:active {
-            transform: scale(0.95);
-        }
-
-        .fab img {
-            width: 20px;
-            height: 20px;
-        }
-
         /* --- Typography & Elements --- */
-        .title-main {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff, #a1a1aa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            font-size: 1rem;
-        }
-
-        .section-title {
+        h2 {
             font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
+            margin-bottom: 16px;
             font-weight: 700;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
         }
 
-        .free-trial {
-            background-color: rgba(251, 191, 36, 0.05);
-            color: var(--accent);
-            padding: 1rem;
+        p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: var(--accent-gold);
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
             border-radius: 12px;
-            border: 1px solid rgba(251, 191, 36, 0.3);
+            font-size: 1rem;
             font-weight: 600;
-            text-align: center;
-            font-size: 0.9rem;
-            margin: 2rem 0;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s;
         }
 
-        /* --- About Section Specifics --- */
-        .profile-img-container {
+        .btn:active {
+            opacity: 0.8;
+        }
+
+        .btn-line {
+            background-color: var(--line-green);
+            color: white;
+            margin-top: 10px;
+        }
+
+        /* --- Home View --- */
+        .hero-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--accent-gold);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background-color: var(--bg-surface);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
             text-align: center;
-            margin-bottom: 2rem;
+        }
+
+        .stat-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .stat-box p {
+            margin: 0;
+            font-size: 0.75rem;
+        }
+
+        /* --- About View --- */
+        .profile-container {
+            text-align: center;
+            margin-bottom: 24px;
         }
 
         .profile-img {
-            width: 140px;
-            height: 140px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--accent);
-            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.15);
+            border: 2px solid var(--accent-gold);
+            margin-bottom: 16px;
         }
 
-        .highlight-quote {
-            border-left: 3px solid var(--accent);
-            margin: 1.5rem 0;
+        .quote-box {
+            border-left: 3px solid var(--accent-gold);
+            padding-left: 16px;
+            margin: 24px 0;
             font-style: italic;
-            font-size: 1rem;
-            color: var(--text-main);
-            background: rgba(251, 191, 36, 0.05);
-            padding: 1rem;
-            border-radius: 0 8px 8px 0;
         }
 
-        .experience-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.2rem;
-            margin-top: 1rem;
-        }
-
-        .exp-item {
-            display: grid;
-            grid-template-columns: 24px 1fr;
+        .list-item {
+            display: flex;
+            align-items: flex-start;
             gap: 12px;
-            align-items: start;
-            background: var(--bg-card);
-            padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
         }
 
-        .exp-text strong {
-            display: block;
-            color: var(--text-main);
-            margin-bottom: 0.2rem;
+        .list-icon {
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+            line-height: 1;
         }
 
-        .list-ui {
-            list-style: none;
-            margin-top: 1rem;
+        /* --- Curricula Accordion --- */
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .list-ui li {
-            margin-bottom: 0.8rem;
-            color: var(--text-muted);
-            display: grid;
-            grid-template-columns: 20px 1fr;
-            gap: 10px;
-            font-size: 0.95rem;
+        .accordion-item {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        /* --- Curricula Cards --- */
-        .card {
-            background-color: var(--bg-card);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid var(--border-color);
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        .accordion-header {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background-color: var(--bg-surface);
         }
 
-        .card-header {
+        .accordion-title {
+            font-weight: 600;
+            font-size: 1.05rem;
             display: flex;
             align-items: center;
-            margin-bottom: 1rem;
+            gap: 10px;
         }
 
-        .flag-icon {
+        .accordion-price {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 0 16px 16px 16px;
+            border-top: 1px solid var(--border-subtle);
+            background-color: var(--bg-surface-light);
+        }
+
+        .accordion-content ul {
+            list-style: none;
+            margin-top: 12px;
+        }
+
+        .accordion-content li {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .accordion-content li::before {
+            content: "•";
+            color: var(--accent-gold);
+        }
+
+        /* --- Bottom Navigation --- */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border-subtle);
+            padding-bottom: env(safe-area-inset-bottom); /* iOS safe area */
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 0;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nav-item svg {
             width: 24px;
             height: 24px;
-            margin-right: 10px;
+            margin-bottom: 4px;
+            fill: currentColor;
         }
 
-        .card h2 {
-            font-size: 1.2rem;
-            color: #fff;
-        }
-
-        .price {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--accent);
-            display: block;
-        }
-        
-        .card-subtitle {
-            margin-bottom: 1rem; 
-            font-size: 0.85rem; 
-            color: #71717a;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
-        }
-
-        .topics {
-            list-style-type: none;
-        }
-
-        .topics li {
-            margin-bottom: 0.6rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            display: grid;
-            grid-template-columns: 16px 1fr;
-            gap: 8px;
-            align-items: start;
-        }
-
-        .topics li::before {
-            content: "▹";
-            color: var(--accent);
-            font-weight: bold;
-            font-size: 1rem;
-        }
-
-        .topics li strong {
-            color: var(--text-main);
-        }
-
-        /* For desktop viewers viewing the app */
-        @media (min-width: 768px) {
-            .app-container {
-                max-width: 480px;
-                margin: 0 auto;
-                border-left: 1px solid var(--border-color);
-                border-right: 1px solid var(--border-color);
-                position: relative;
-            }
-            .bottom-nav {
-                max-width: 480px;
-                left: 50%;
-                transform: translateX(-50%);
-                border-left: 1px solid var(--border-color);
-                border-right: 1px solid var(--border-color);
-            }
-            .fab {
-                right: calc(50% - 220px); /* Align within the 480px wrapper */
-            }
+        .nav-item.active {
+            color: var(--accent-gold);
         }
     </style>
 </head>
@@ -357,198 +331,200 @@
     <div class="app-container">
         
         <header class="top-bar">
-            <h1>Supanut Suntikoon</h1>
+            <h1>S. SUNTIKOON</h1>
+            <span>Premium Tutor</span>
         </header>
 
-        <main class="main-content" id="main-content">
-
-            <section id="home" class="panel active">
-                <div style="padding-top: 2rem; padding-bottom: 2rem;">
-                    <h2 class="title-main">Premium Math Mastery</h2>
-                    <p class="subtitle">Specialized 1-on-1 online tutoring for IGCSE, A-Level, IB DP, and AP Mathematics. Elevate your understanding and secure your admissions.</p>
-                    
-                    <div style="text-align: center;">
-                        <img src="1777833957433.webp" alt="Tutor" style="width: 100%; max-width: 300px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1rem; object-fit: cover; aspect-ratio: 1/1;">
-                    </div>
-
-                    <div class="free-trial">
-                        ✨ Exclusive Offer: Free 1-Hour Trial Session for New Students ✨
-                    </div>
-                </div>
-            </section>
-
-            <section id="about" class="panel">
-                <div class="profile-img-container">
-                    <img src="1777833957433.webp" alt="Supanut Suntikoon" class="profile-img">
-                </div>
-
-                <h2 class="section-title">The "i to i+1" Philosophy</h2>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">Mathematics is undeniably tough, but never impossible. It doesn't matter where your current baseline (<em>i</em>) is; my primary goal is to help you take that next crucial step forward.</p>
-                <div class="highlight-quote">
-                    "With the right guidance, rapport, and relentless consistency, any student can bridge the gap between confusion and mastery."
-                </div>
-
-                <h2 class="section-title" style="margin-top: 2rem;">The Experience</h2>
-                <div class="experience-grid">
-                    <div class="exp-item">
-                        <span>💎</span>
-                        <div class="exp-text">
-                            <strong>Bilingual Instruction</strong>
-                            Fully fluent in Thai & English.
-                        </div>
-                    </div>
-                    <div class="exp-item">
-                        <span>💎</span>
-                        <div class="exp-text">
-                            <strong>100% Personalized</strong>
-                            You dictate the curriculum goals.
-                        </div>
-                    </div>
-                    <div class="exp-item">
-                        <span>💎</span>
-                        <div class="exp-text">
-                            <strong>Live Zoom Sessions</strong>
-                            Scheduled virtual whiteboard sessions.
-                        </div>
-                    </div>
-                    <div class="exp-item">
-                        <span>💎</span>
-                        <div class="exp-text">
-                            <strong>24/7 Support</strong>
-                            Help via LINE for math emergencies.
-                        </div>
-                    </div>
-                </div>
-
-                <h2 class="section-title" style="margin-top: 2rem;">Background</h2>
-                <ul class="list-ui">
-                    <li><span>🎓</span><span>B.S. Chemistry, Chiang Mai Univ.</span></li>
-                    <li><span>🎓</span><span>M.S. Geology, Chiang Mai Univ.</span></li>
-                    <li><span>🎓</span><span>Ph.D. Env. Science, Chiang Mai Univ.</span></li>
-                    <li><span>🎓</span><span>Ph.D. Geosciences, Univ. of Montana (Dropped Out)</span></li>
-                </ul>
-
-                <h2 class="section-title" style="margin-top: 2rem;">Beyond Numbers</h2>
-                <ul class="list-ui">
-                    <li><span>⚡</span><span>Calisthenics & Bodyweight Mastery</span></li>
-                    <li><span>⚡</span><span>Breakdancing (B-Boying)</span></li>
-                    <li><span>⚡</span><span>Functional Fitness</span></li>
-                </ul>
-                <br>
-            </section>
-
-            <section id="curricula" class="panel">
-                <h2 class="title-main" style="text-align: left; font-size: 1.8rem; margin-bottom: 1.5rem;">Courses & Rates</h2>
+        <main class="main-content">
+            
+            <section id="view-home" class="view-section active">
+                <div class="hero-badge">✨ Free 1-Hour Trial</div>
+                <h2>Premium Math Mastery</h2>
+                <p>Specialized 1-on-1 online tutoring designed to elevate your understanding, conquer your exams, and secure your university admissions.</p>
                 
-                <div class="card">
-                    <div class="card-header">
-                        <img src="united-kingdom-uk-svgrepo-com.svg" alt="UK" class="flag-icon">
-                        <h2>IGCSE Mathematics</h2>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <h3>100%</h3>
+                        <p>Personalized</p>
                     </div>
-                    <span class="price">600 THB / Hr</span>
-                    <p class="card-subtitle">Edexcel & Cambridge (Core & Extended)</p>
-                    <ul class="topics">
-                        <li><span>Number Systems, Percentages & Ratios</span></li>
-                        <li><span>Algebraic Manipulation & Quadratics</span></li>
-                        <li><span>Functions, Graphs & Inequalities</span></li>
-                        <li><span>Coordinate Geometry & Circle Theorems</span></li>
-                        <li><span>Trigonometry (2D & 3D) & Mensuration</span></li>
-                        <li><span>Vectors & Transformations</span></li>
-                        <li><span>Probability & Statistical Diagrams</span></li>
-                    </ul>
+                    <div class="stat-box">
+                        <h3>24/7</h3>
+                        <p>LINE Support</p>
+                    </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <img src="united-kingdom-uk-svgrepo-com.svg" alt="UK" class="flag-icon">
-                        <h2>A-Level Mathematics</h2>
-                    </div>
-                    <span class="price">800 THB / Hr</span>
-                    <p class="card-subtitle">Pure Mathematics, Mechanics & Statistics</p>
-                    <ul class="topics">
-                        <li><span>Advanced Algebra & Partial Fractions</span></li>
-                        <li><span>Sequences, Series & Binomial Expansion</span></li>
-                        <li><span>Trigonometric Identities & Equations</span></li>
-                        <li><span>Calculus: Chain/Product/Quotient Rules</span></li>
-                        <li><span>Integration Techniques & Diff. Equations</span></li>
-                        <li><span>Mechanics: Forces, Newton's Laws</span></li>
-                        <li><span>Statistics: Distributions & Hypo. Testing</span></li>
-                    </ul>
+                <a href="https://line.me/ti/p/~supanut_suntikoon" class="btn btn-line">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 3.933 8.944 9.584 9.619.387.085.914.262 1.047.604.119.309.077.795.038 1.114l-.248 1.488c-.033.197-.156.76.666.415.823-.346 4.436-2.617 6.071-4.492C21.751 16.49 24 13.627 24 10.304zm-15.029 2.502h-3.414c-.237 0-.43-.193-.43-.43v-4.148c0-.238.193-.43.43-.43h3.414c.237 0 .43.193.43.43v.81c0 .238-.193.43-.43.43h-2.553v.641h2.553c.237 0 .43.192.43.43v.81c0 .237-.193.43-.43.43h-2.553v.64h2.553c.237 0 .43.193.43.43v.811c0 .237-.193.43-.43.43zm4.568 0h-.859c-.238 0-.43-.193-.43-.43v-4.148c0-.238.192-.43.43-.43h.859c.237 0 .43.193.43.43v4.148c0 .237-.193.43-.43.43zm4.526-4.578v3.338l-2.457-3.238c-.059-.074-.132-.132-.218-.168a.434.434 0 0 0-.256-.032h-.838c-.237 0-.43.193-.43.43v4.148c0 .237.193.43.43.43h.859c.237 0 .43-.193.43-.43v-3.338l2.458 3.238c.06.074.131.132.217.168.087.035.18.043.272.022h.822c.238 0 .43-.193.43-.43v-4.148c0-.238-.192-.43-.43-.43h-.859c-.237 0-.43.193-.43.43z"/></svg>
+                    Book Your Session
+                </a>
+            </section>
+
+            <section id="view-about" class="view-section">
+                <div class="profile-container">
+                    <img src="1777833957433.webp" alt="Supanut Suntikoon" class="profile-img" onerror="this.src='https://ui-avatars.com/api/?name=S+S&background=d4af37&color=000&size=150'">
+                    <h2>Supanut Suntikoon</h2>
+                    <p style="margin-bottom: 0;">Bilingual Instructor (Thai/Eng)</p>
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <span style="font-size: 1.2rem; margin-right: 10px;">🌐</span>
-                        <h2>IB DP Mathematics</h2>
-                    </div>
-                    <span class="price">1,000 THB / Hr</span>
-                    <p class="card-subtitle">AA & AI — Higher Level (HL) & Standard Level (SL)</p>
-                    <ul class="topics">
-                        <li><span>Advanced Functions & Complex Numbers</span></li>
-                        <li><span>Proof by Induction (AA HL)</span></li>
-                        <li><span>Graph Theory, Matrices (AI HL)</span></li>
-                        <li><span>Vector Kinematics & Transformations</span></li>
-                        <li><span>Calculus (Optimization, Kinematics)</span></li>
-                        <li><span><strong>Internal Assessment (IA) Guidance</strong></span></li>
-                    </ul>
+                <div class="quote-box">
+                    <p style="margin: 0; color: #fff;">"My core philosophy centers on moving from <strong class="highlight">i to i + 1</strong>. No matter your baseline, we take the next crucial step forward."</p>
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <img src="flag-us-svgrepo-com.svg" alt="US" class="flag-icon">
-                        <h2>AP Calculus & SAT</h2>
+                <h3 style="margin: 24px 0 12px; font-size: 1.1rem;">Academic Background</h3>
+                <div class="list-item">
+                    <span class="list-icon">🎓</span>
+                    <div>
+                        <span style="display:block; font-weight: 600; font-size: 0.9rem;">Chiang Mai University</span>
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">B.S. Chemistry, M.S. Geology, Ph.D. Env. Science</span>
                     </div>
-                    <span class="price">800 THB / Hr</span>
-                    <p class="card-subtitle">AP Calc AB/BC, AP Stats & Digital SAT</p>
-                    <ul class="topics">
-                        <li><span><strong>AP Calc:</strong> Limits, Derivs & Integrals</span></li>
-                        <li><span><strong>AP Calc BC:</strong> Parametric, Polar, Taylor Series</span></li>
-                        <li><span><strong>AP Stats:</strong> Probability & Inference</span></li>
-                        <li><span><strong>Digital SAT:</strong> Advanced Math & Algebra</span></li>
-                        <li><span>Desmos & TI-Nspire Mastery</span></li>
-                    </ul>
+                </div>
+                <div class="list-item">
+                    <span class="list-icon">🎓</span>
+                    <div>
+                        <span style="display:block; font-weight: 600; font-size: 0.9rem;">University of Montana</span>
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">Ph.D. Geosciences (Dropped Out)</span>
+                    </div>
+                </div>
+
+                <h3 style="margin: 24px 0 12px; font-size: 1.1rem;">Beyond The Numbers</h3>
+                <p>Discipline in the mind requires discipline in the body. Focused on physical mastery through Calisthenics, B-Boying, and Functional Strength Training.</p>
+            </section>
+
+            <section id="view-courses" class="view-section">
+                <h2>Curricula & Rates</h2>
+                <p>Select a program below to view topics and pricing.</p>
+
+                <div class="accordion">
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <div class="accordion-title">🇬🇧 IGCSE Math</div>
+                            <div class="accordion-price">600 THB/hr</div>
+                        </div>
+                        <div class="accordion-content">
+                            <p style="margin-top: 10px; font-size: 0.8rem;">Edexcel & Cambridge (Core & Extended)</p>
+                            <ul>
+                                <li>Number Systems, Percentages & Ratios</li>
+                                <li>Algebraic Manipulation & Quadratics</li>
+                                <li>Functions, Graphs & Inequalities</li>
+                                <li>Coordinate Geometry & Circle Theorems</li>
+                                <li>Trigonometry & Mensuration</li>
+                                <li>Vectors & Transformations</li>
+                                <li>Probability & Statistical Diagrams</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <div class="accordion-title">🇬🇧 A-Level Math</div>
+                            <div class="accordion-price">800 THB/hr</div>
+                        </div>
+                        <div class="accordion-content">
+                            <p style="margin-top: 10px; font-size: 0.8rem;">Pure Mathematics, Mechanics & Statistics</p>
+                            <ul>
+                                <li>Advanced Algebra & Partial Fractions</li>
+                                <li>Trigonometric Identities & Equations</li>
+                                <li>Calculus: Chain/Product/Quotient Rules</li>
+                                <li>Integration & Differential Equations</li>
+                                <li>Mechanics: Kinematics, Forces & Moments</li>
+                                <li>Statistics: Normal/Binomial & Hypothesis</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <div class="accordion-title">🌐 IB DP Math</div>
+                            <div class="accordion-price">1,000 THB/hr</div>
+                        </div>
+                        <div class="accordion-content">
+                            <p style="margin-top: 10px; font-size: 0.8rem;">AA & AI — Higher Level (HL) & Standard Level (SL)</p>
+                            <ul>
+                                <li>Advanced Functions & Complex Numbers</li>
+                                <li>Proof by Induction & Maclaurin Series</li>
+                                <li>Graph Theory & Voronoi Diagrams</li>
+                                <li>Vector Kinematics & Transformations</li>
+                                <li>Advanced Statistics & Calculus</li>
+                                <li>Internal Assessment (IA) Guidance</li>
+                                <li>GDC (Graphing Calculator) Optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <div class="accordion-title">🇺🇸 AP & SAT</div>
+                            <div class="accordion-price">800 THB/hr</div>
+                        </div>
+                        <div class="accordion-content">
+                            <p style="margin-top: 10px; font-size: 0.8rem;">AP Calc AB/BC, AP Stats & Digital SAT</p>
+                            <ul>
+                                <li>AP Calc: Limits, Derivatives & Integrals</li>
+                                <li>AP Calc BC: Parametric, Polar & Taylor Series</li>
+                                <li>AP Stats: Experimental Design & Inference</li>
+                                <li>Digital SAT: Heart of Algebra</li>
+                                <li>Digital SAT: Problem Solving & Data Analysis</li>
+                                <li>Desmos Integration & Pacing Strategies</li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
         </main>
 
-        <a href="https://line.me/ti/p/~supanut_suntikoon" class="fab">
-            <img src="LINE_logo.svg" alt="LINE"> Contact
-        </a>
-
         <nav class="bottom-nav">
-            <button class="nav-item active" onclick="switchTab('home', this)">
-                <span class="nav-icon">🏠</span>
-                <span>Home</span>
-            </button>
-            <button class="nav-item" onclick="switchTab('about', this)">
-                <span class="nav-icon">👤</span>
-                <span>About</span>
-            </button>
-            <button class="nav-item" onclick="switchTab('curricula', this)">
-                <span class="nav-icon">📚</span>
-                <span>Curricula</span>
-            </button>
+            <div class="nav-item active" onclick="switchTab('view-home', this)">
+                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                Home
+            </div>
+            <div class="nav-item" onclick="switchTab('view-about', this)">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                Tutor
+            </div>
+            <div class="nav-item" onclick="switchTab('view-courses', this)">
+                <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+                Curricula
+            </div>
         </nav>
 
     </div>
 
     <script>
-        function switchTab(tabId, btnElement) {
-            // Remove active class from all panels and buttons
-            document.querySelectorAll('.panel').forEach(panel => {
-                panel.classList.remove('active');
+        // Tab Switching Logic
+        function switchTab(viewId, element) {
+            // Remove active class from all views and nav items
+            document.querySelectorAll('.view-section').forEach(view => {
+                view.classList.remove('active');
             });
-            document.querySelectorAll('.nav-item').forEach(btn => {
-                btn.classList.remove('active');
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.classList.remove('active');
             });
 
-            // Add active class to selected panel and button
-            document.getElementById(tabId).classList.add('active');
-            btnElement.classList.add('active');
+            // Add active class to selected view and nav item
+            document.getElementById(viewId).classList.add('active');
+            element.classList.add('active');
 
-            // Scroll to top of content area on tab switch
-            document.getElementById('main-content').scrollTop = 0;
+            // Scroll to top of main content
+            document.querySelector('.main-content').scrollTop = 0;
+        }
+
+        // Accordion Logic for Curricula
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            const isOpen = content.style.display === 'block';
+            
+            // Close all other accordions (Optional: remove if you want multiple open at once)
+            document.querySelectorAll('.accordion-content').forEach(acc => {
+                acc.style.display = 'none';
+            });
+
+            // Toggle selected accordion
+            if (!isOpen) {
+                content.style.display = 'block';
+            }
         }
     </script>
 </body>
