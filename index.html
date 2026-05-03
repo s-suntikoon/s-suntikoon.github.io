@@ -132,6 +132,21 @@
             border-bottom: 1px solid var(--border-color);
         }
 
+        .profile-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.15);
+        }
+
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -184,6 +199,14 @@
 
         .lifestyle-list li::before {
             content: "⚡";
+        }
+
+        .experience-list li {
+            margin-bottom: 1.2rem;
+        }
+        
+        .experience-list li::before {
+            content: "💎";
         }
 
         /* Cards Grid */
@@ -294,6 +317,11 @@
 
     <section class="about-section">
         <h2 class="section-title" style="margin-top: 0;">Meet Your Tutor</h2>
+        
+        <div class="profile-wrapper">
+            <img src="1777833957433.webp" alt="Supanut Suntikoon" class="profile-img">
+        </div>
+
         <div class="about-grid">
             <div class="about-text">
                 <h3>The "i to i + 1" Philosophy</h3>
@@ -301,7 +329,13 @@
                 <div class="highlight-quote">
                     "With the right guidance, rapport, and relentless consistency, any student can bridge the gap between confusion and mastery."
                 </div>
-                <p>I prioritize building strong, genuine rapport with my students. When you feel comfortable making mistakes and asking questions, true learning begins.</p>
+
+                <h3 style="margin-top: 2rem;">The Tutoring Experience</h3>
+                <ul class="about-list experience-list">
+                    <li><strong>Bilingual Instruction:</strong> Fully fluent in both Thai and English.</li>
+                    <li><strong>100% Personalized:</strong> You dictate the curriculum. Select the specific topics or goals you want to conquer for each session.</li>
+                    <li><strong>Zoom + 24/7 Support:</strong> Engaging live scheduled sessions via Zoom, backed by round-the-clock support via LINE for any math emergencies.</li>
+                </ul>
             </div>
             
             <div class="about-text">
@@ -309,8 +343,8 @@
                 <ul class="about-list">
                     <li>B.S. in Chemistry, Chiang Mai University</li>
                     <li>M.S. in Geology, Chiang Mai University</li>
-                    <li>Ph.D. in Geosciences, University of Montana (Dropped Out)</li>
                     <li>Ph.D. in Environmental Science, Chiang Mai University</li>
+                    <li>Ph.D. in Geosciences, University of Montana (Dropped Out)</li>
                 </ul>
 
                 <h3 style="margin-top: 2rem;">Beyond the Numbers</h3>
@@ -409,7 +443,7 @@
 
     <footer>
         <h2 style="color: var(--text-main); margin-bottom: 0.5rem;">Supanut Suntikoon</h2>
-        <p>Expert Math Tutor | Chiang Mai, Thailand (Online Global)</p>
+        <p>Expert Math Tutor | Bangkok, Thailand (Online Global)</p>
         <p style="margin-top: 1.5rem;">
             <a href="https://line.me/ti/p/~supanut_suntikoon" style="color: var(--accent); text-decoration: none; font-weight: bold; border-bottom: 1px solid var(--accent); padding-bottom: 2px;">Contact on LINE: supanut_suntikoon</a>
         </p>
