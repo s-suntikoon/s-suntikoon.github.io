@@ -6,13 +6,16 @@
     <title>Supanut Suntikoon | Premium Math Tutor</title>
     <style>
         :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
+            /* Sleek Dark Black Aesthetic */
+            --bg-dark: #000000;
+            --bg-card: #0a0a0a;
+            --bg-lighter: #141414;
             --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --text-muted: #a1a1aa;
             --accent: #fbbf24; /* Premium Gold */
             --accent-hover: #f59e0b;
             --line-green: #00B900;
+            --border-color: #27272a;
         }
 
         * {
@@ -29,38 +32,43 @@
         }
 
         header {
-            background-color: rgba(15, 23, 42, 0.95);
+            background-color: rgba(0, 0, 0, 0.90);
             padding: 1.5rem 5%;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid #334155;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            backdrop-filter: blur(10px);
         }
 
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--accent);
+            letter-spacing: 1px;
         }
 
         .hero {
-            padding: 4rem 5%;
+            padding: 5rem 5%;
             text-align: center;
-            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            background: radial-gradient(circle at center, #141414 0%, #000000 100%);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 1rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .hero p {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             color: var(--text-muted);
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto 2rem;
         }
 
@@ -70,16 +78,18 @@
             gap: 10px;
             background-color: var(--line-green);
             color: #fff;
-            padding: 0.8rem 1.5rem;
+            padding: 0.8rem 1.8rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
             font-size: 1.1rem;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 185, 0, 0.2);
         }
 
         .cta-btn:hover {
             background-color: #009900;
+            transform: translateY(-2px);
         }
 
         .cta-btn img {
@@ -88,21 +98,23 @@
         }
 
         .free-trial {
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             display: inline-block;
-            background-color: rgba(251, 191, 36, 0.1);
+            background-color: rgba(251, 191, 36, 0.05);
             color: var(--accent);
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 8px;
-            border: 1px solid var(--accent);
+            border: 1px solid rgba(251, 191, 36, 0.3);
             font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .section-title {
             text-align: center;
-            font-size: 2rem;
-            margin: 3rem 0 2rem;
+            font-size: 2.2rem;
+            margin: 4rem 0 3rem;
             color: var(--accent);
+            font-weight: 700;
         }
 
         .container {
@@ -111,36 +123,114 @@
             padding: 0 5%;
         }
 
+        /* About Section Styles */
+        .about-section {
+            background-color: var(--bg-lighter);
+            padding: 4rem 5%;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-text h3 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .highlight-quote {
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            background: rgba(251, 191, 36, 0.05);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .about-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .about-list li {
+            margin-bottom: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+        }
+
+        .about-list li::before {
+            content: "🎓";
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+
+        .lifestyle-list li::before {
+            content: "⚡";
+        }
+
+        /* Cards Grid */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-bottom: 4rem;
+            margin-bottom: 5rem;
         }
 
         .card {
             background-color: var(--bg-card);
             border-radius: 12px;
-            padding: 2rem;
-            border: 1px solid #334155;
-            transition: transform 0.3s, border-color 0.3s;
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
         .card:hover {
             transform: translateY(-5px);
             border-color: var(--accent);
+            box-shadow: 0 8px 30px rgba(251, 191, 36, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .flag-icon {
+            width: 28px;
+            height: 28px;
+            margin-right: 12px;
         }
 
         .card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            border-bottom: 2px solid #334155;
-            padding-bottom: 0.5rem;
+            font-size: 1.4rem;
+            color: #fff;
         }
 
         .price {
-            font-size: 1.25rem;
-            font-weight: bold;
+            font-size: 1.5rem;
+            font-weight: 800;
             color: var(--accent);
             margin-bottom: 1rem;
             display: block;
@@ -151,28 +241,33 @@
         }
 
         .topics li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             color: var(--text-muted);
             display: flex;
             align-items: flex-start;
+            font-size: 0.95rem;
         }
 
         .topics li::before {
             content: "▹";
             color: var(--accent);
-            margin-right: 8px;
+            margin-right: 10px;
+            font-weight: bold;
         }
 
         footer {
             text-align: center;
-            padding: 2rem;
-            background-color: #0b1120;
-            border-top: 1px solid #334155;
+            padding: 3rem 2rem;
+            background-color: #050505;
             color: var(--text-muted);
         }
 
+        @media (max-width: 900px) {
+            .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+        }
+
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
+            .hero h1 { font-size: 2.2rem; }
             .grid { grid-template-columns: 1fr; }
             header { flex-direction: column; gap: 1rem; }
         }
@@ -181,15 +276,15 @@
 <body>
 
     <header>
-        <div class="logo">Supanut Suntikoon</div>
+        <div class="logo">SUPANUT SUNTIKOON</div>
         <a href="https://line.me/ti/p/~supanut_suntikoon" class="cta-btn">
             <img src="LINE_logo.svg" alt="LINE"> Contact via LINE
         </a>
     </header>
 
     <section class="hero">
-        <h1>Premium International Math Tutoring</h1>
-        <p>Mastering IGCSE, A-Level, IB DP, and AP Mathematics. Tailored 1-on-1 online sessions to help you achieve top-tier results and university admissions.</p>
+        <h1>Premium Math Mastery</h1>
+        <p>Specialized 1-on-1 online tutoring for IGCSE, A-Level, IB DP, and AP Mathematics. Elevate your understanding, conquer your exams, and secure your university admissions.</p>
         <a href="https://line.me/ti/p/~supanut_suntikoon" class="cta-btn">
             <img src="LINE_logo.svg" alt="LINE"> Book Your Session
         </a>
@@ -197,63 +292,115 @@
         <div class="free-trial">✨ Exclusive Offer: Free 1-Hour Trial Session for New Students ✨</div>
     </section>
 
+    <section class="about-section">
+        <h2 class="section-title" style="margin-top: 0;">Meet Your Tutor</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <h3>The "i to i + 1" Philosophy</h3>
+                <p>Mathematics is undeniably tough, but it is never impossible. My core teaching philosophy is centered around the concept of moving from <strong><em>i</em> to <em>i + 1</em></strong>. It doesn't matter where your current baseline (<em>i</em>) is; my primary goal is to help you take that next crucial step forward.</p>
+                <div class="highlight-quote">
+                    "With the right guidance, rapport, and relentless consistency, any student can bridge the gap between confusion and mastery."
+                </div>
+                <p>I prioritize building strong, genuine rapport with my students. When you feel comfortable making mistakes and asking questions, true learning begins.</p>
+            </div>
+            
+            <div class="about-text">
+                <h3>Academic Background</h3>
+                <ul class="about-list">
+                    <li>B.S. in Chemistry, Chiang Mai University</li>
+                    <li>M.S. in Geology, Chiang Mai University</li>
+                    <li>Ph.D. in Environmental Science, Chiang Mai University</li>
+                    <li>Ph.D. in Geosciences, University of Montana (Dropped Out)</li>
+                </ul>
+
+                <h3 style="margin-top: 2rem;">Beyond the Numbers</h3>
+                <p>Discipline in the mind requires discipline in the body. When I'm not dissecting complex equations, you'll find me focusing on physical mastery through:</p>
+                <ul class="about-list lifestyle-list">
+                    <li>Calisthenics & Bodyweight Mastery</li>
+                    <li>Breakdancing (B-Boying)</li>
+                    <li>Functional Fitness & Strength Training</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
     <div class="container">
         <h2 class="section-title">Curricula & Rates</h2>
         <div class="grid">
             
-            <!-- IGCSE Card -->
             <div class="card">
-                <h2>🇬🇧 IGCSE Mathematics</h2>
-                <span class="price">1,500 THB / Hour</span>
-                <p style="margin-bottom: 1rem; font-size: 0.9rem;">Edexcel & Cambridge (Core & Extended)</p>
+                <div class="card-header">
+                    <img src="united-kingdom-uk-svgrepo-com.svg" alt="UK Flag" class="flag-icon">
+                    <h2>IGCSE Mathematics</h2>
+                </div>
+                <span class="price">600 THB / Hour</span>
+                <p style="margin-bottom: 1.5rem; font-size: 0.9rem; color: #71717a;">Edexcel & Cambridge (Core & Extended)</p>
                 <ul class="topics">
-                    <li>Numbers & Algebra</li>
-                    <li>Coordinate & Solid Geometry</li>
-                    <li>Mensuration & Trigonometry</li>
-                    <li>Matrices & Transformations</li>
-                    <li>Probability & Statistics</li>
-                    <li>Past Paper Drilling & Exam Technique</li>
+                    <li>Number Systems, Percentages & Ratios</li>
+                    <li>Algebraic Manipulation & Quadratics</li>
+                    <li>Functions, Graphs & Inequalities</li>
+                    <li>Coordinate Geometry & Circle Theorems</li>
+                    <li>Trigonometry (2D & 3D) & Mensuration</li>
+                    <li>Vectors & Transformations</li>
+                    <li>Probability & Statistical Diagrams</li>
+                    <li>Intensive Past Paper Drilling & Time Management</li>
                 </ul>
             </div>
 
-            <!-- A-Level Card -->
             <div class="card">
-                <h2>🇬🇧 A-Level Mathematics</h2>
-                <span class="price">2,000 THB / Hour</span>
-                <p style="margin-bottom: 1rem; font-size: 0.9rem;">Pure Mathematics, Mechanics & Statistics</p>
+                <div class="card-header">
+                    <img src="united-kingdom-uk-svgrepo-com.svg" alt="UK Flag" class="flag-icon">
+                    <h2>A-Level Mathematics</h2>
+                </div>
+                <span class="price">800 THB / Hour</span>
+                <p style="margin-bottom: 1.5rem; font-size: 0.9rem; color: #71717a;">Pure Mathematics, Mechanics & Statistics</p>
                 <ul class="topics">
-                    <li>Algebra, Functions & Series</li>
-                    <li>Advanced Calculus (Differentiation & Integration)</li>
-                    <li>Exponentials, Logarithms & Vectors</li>
-                    <li>Kinematics, Forces & Newton's Laws</li>
-                    <li>Statistical Distributions & Hypothesis Testing</li>
+                    <li>Advanced Algebra & Partial Fractions</li>
+                    <li>Sequences, Series & Binomial Expansion</li>
+                    <li>Trigonometric Identities & Equations</li>
+                    <li>Calculus: Chain/Product/Quotient Rules</li>
+                    <li>Integration Techniques & Differential Equations</li>
+                    <li>Parametric Equations & Vectors</li>
+                    <li>Mechanics: Kinematics, Forces, Newton's Laws & Moments</li>
+                    <li>Statistics: Normal/Binomial Distributions & Hypothesis Testing</li>
                 </ul>
             </div>
 
-            <!-- IB DP Card -->
             <div class="card">
-                <h2>🌐 IB DP Mathematics</h2>
-                <span class="price">2,500 THB / Hour</span>
-                <p style="margin-bottom: 1rem; font-size: 0.9rem;">Analysis & Approaches (AA) / Applications & Interpretation (AI) — HL & SL</p>
+                <div class="card-header">
+                    <span style="font-size: 1.5rem; margin-right: 12px;">🌐</span>
+                    <h2>IB DP Mathematics</h2>
+                </div>
+                <span class="price">1,000 THB / Hour</span>
+                <p style="margin-bottom: 1.5rem; font-size: 0.9rem; color: #71717a;">AA & AI — Higher Level (HL) & Standard Level (SL)</p>
                 <ul class="topics">
-                    <li>Number & Algebra</li>
-                    <li>Functions, Geometry & Trigonometry</li>
-                    <li>Advanced Statistics & Probability</li>
-                    <li>Calculus (Limits, Integration, Differential Equations)</li>
-                    <li><strong>Internal Assessment (IA) Guidance & Review</strong></li>
+                    <li>Advanced Functions & Complex Numbers</li>
+                    <li>Proof by Induction & Maclaurin Series (AA HL)</li>
+                    <li>Graph Theory, Voronoi Diagrams & Matrices (AI HL)</li>
+                    <li>Vector Kinematics & Geometric Transformations</li>
+                    <li>Advanced Statistics (Chi-Squared, Poisson, t-tests)</li>
+                    <li>Calculus (Optimization, Kinematics, Volumes of Revolution)</li>
+                    <li><strong>Internal Assessment (IA) Complete Guidance</strong></li>
+                    <li>GDC (Graphing Calculator) Optimization</li>
                 </ul>
             </div>
 
-            <!-- AP / SAT Card -->
             <div class="card">
-                <h2>🇺🇸 AP Calculus & SAT</h2>
-                <span class="price">2,000 THB / Hour</span>
-                <p style="margin-bottom: 1rem; font-size: 0.9rem;">AP Calculus AB/BC, AP Stats & Digital SAT</p>
+                <div class="card-header">
+                    <img src="flag-us-svgrepo-com.svg" alt="US Flag" class="flag-icon">
+                    <h2>AP Calculus & SAT</h2>
+                </div>
+                <span class="price">800 THB / Hour</span>
+                <p style="margin-bottom: 1.5rem; font-size: 0.9rem; color: #71717a;">AP Calc AB/BC, AP Stats & Digital SAT</p>
                 <ul class="topics">
-                    <li><strong>AP Calc:</strong> Limits, Derivatives, Integrals, Series</li>
-                    <li><strong>AP Stats:</strong> Data Analysis, Experimental Design, Inference</li>
-                    <li><strong>SAT Math:</strong> Heart of Algebra, Problem Solving, Advanced Math</li>
-                    <li>TI-84 / TI-Nspire Calculator Strategies</li>
+                    <li><strong>AP Calc:</strong> Limits, Continuity & Derivative Applications</li>
+                    <li><strong>AP Calc BC:</strong> Parametric, Polar, Vector Functions & Taylor Series</li>
+                    <li><strong>AP Stats:</strong> Experimental Design & Exploring Data</li>
+                    <li><strong>AP Stats:</strong> Probability Models & Statistical Inference</li>
+                    <li><strong>Digital SAT:</strong> Heart of Algebra & Passport to Advanced Math</li>
+                    <li><strong>Digital SAT:</strong> Problem Solving & Data Analysis</li>
+                    <li>Desmos Integration & Pacing Strategies</li>
+                    <li>TI-84 Plus / TI-Nspire Mastery</li>
                 </ul>
             </div>
 
@@ -261,10 +408,10 @@
     </div>
 
     <footer>
-        <h2>Supanut Suntikoon</h2>
+        <h2 style="color: var(--text-main); margin-bottom: 0.5rem;">Supanut Suntikoon</h2>
         <p>Expert Math Tutor | Bangkok, Thailand (Online Global)</p>
-        <p style="margin-top: 1rem;">
-            <a href="https://line.me/ti/p/~supanut_suntikoon" style="color: var(--accent); text-decoration: none;">LINE ID: supanut_suntikoon</a>
+        <p style="margin-top: 1.5rem;">
+            <a href="https://line.me/ti/p/~supanut_suntikoon" style="color: var(--accent); text-decoration: none; font-weight: bold; border-bottom: 1px solid var(--accent); padding-bottom: 2px;">Contact on LINE: supanut_suntikoon</a>
         </p>
     </footer>
 
